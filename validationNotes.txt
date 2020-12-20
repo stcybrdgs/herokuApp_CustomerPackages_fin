@@ -1,0 +1,32 @@
+This file contains notes on form validations needed for the
+'Add a Package' form component.
+
+These validations allow user inputs to align with data types defined on the
+PostgreSQL database schema for these form fields:
+
+  'Customer'
+    Data Type:  pre-defined by drop menu
+    Validation: NOT NULL
+
+  'Widget'
+    Data Type:  pre-defined by drop menu
+    Validation: NOT NULL
+
+  'Packaging'
+    Data Type:  pre-defined by drop menu
+    Validation: NOT NULL
+
+  'Qty in Pkg'
+    Data Type:  SMALLINT
+    Range:      An integer in the inclusive range -32,768 to 32,767
+    Validation: The input validates as isInteger && >= -32,768 && <= 32,767
+
+  'Price'
+    Data Type:  NUMERIC(8,2)
+    Range:      A real number <= 999999.99
+    Validation: User can only enter nearest whole dollar amount
+                The input validates as isInteger && <= 999999
+
+  'Pkg = Customer + Widget + Packaging + Qty in Pkg + Price'
+    Data Type:  None
+    Validation: The input package (all fields) does not already exist
