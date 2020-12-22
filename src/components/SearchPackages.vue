@@ -7,7 +7,8 @@
         id="searchPkgs"
         placeholder="Search Packages"
         type="text"
-        class="form-control"
+        class="form-control text-info"
+        :style="{ 'background': searchBarHighlight}"
         aria-label="Search for Packages"
         v-model="searchTerm">
 
@@ -119,7 +120,8 @@
     ],
     data: function(){
       return {
-        searchTerm: ''
+        searchTerm: '',
+        searchBarHighlight: ''
       };
     },
     components: {
@@ -128,6 +130,11 @@
     watch: {
       searchTerm: function(){
         this.$emit('searchRecords', this.searchTerm);
+        if( this.searchTerm ){
+          this.searchBarHighlight = 'rgb(240,250,250)';
+        } else {
+          this.searchBarHighlight = 'rgb(255,255,255)';
+        }
       }
     },
     methods: {
@@ -141,5 +148,8 @@
 <style>
   .dropdown-menu a{
     font-size: .92em;
+  }
+  input{
+    background: rgb(232,240,254);
   }
 </style>

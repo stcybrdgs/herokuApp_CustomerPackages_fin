@@ -1,13 +1,28 @@
 <template id="">
   <div class="col-12 col-md-10 col-lg-8">
-    <div class="textcenter mt-3">
+    <div class="mt-3">
 
       <!-- form-panel toggle button -->
       <div
         id="addPkgtBtn"
         class="card-header border-0 bg-info text-white"
         @click="toggle">
-        <font-awesome-icon icon="plus" class="mr-3"/>Add a Package
+        <div class="d-flex justify-content-between">
+        <div>
+          <font-awesome-icon icon="plus" class="mr-3"/>
+          Add a Package
+        </div>
+        <div>
+          Total:
+          <span class="badge rounded-pill bg-light text-info mr-2 ml-1">
+            {{ numPkgs }}
+          </span>
+          Search:
+          <span class="badge rounded-pill bg-light text-info ml-1">
+            {{ numPkgsFiltered }}
+          </span>
+        </div>
+        </div>
       </div>
 
       <!--  Accordion wrapper for sliding form panel
@@ -223,7 +238,7 @@
 
   export default{
     name: 'add-packages',
-    props: ['dropMenus', 'pkgIndex', 'itemsPerPage'],
+    props: ['dropMenus', 'pkgIndex', 'itemsPerPage','numPkgs', 'numPkgsFiltered'],
     components: {
       FontAwesomeIcon,
       AlertMessage
@@ -312,8 +327,6 @@
               }
             }
             this.$emit('add', packagesObject);
-            console.log('in requestAdd(): ', parseInt(this.itemsPerPage) + 1);
-            this.$emit('changeItemsPerPage', parseInt(this.itemsPerPage) + 1);
             this.resetFormValues();
           } else {
             // if qty or price values do not validate, alert the user
@@ -428,5 +441,8 @@
   #qty-tooltip:hover,
   #price-tooltip:hover{
     cursor: help;
+  }
+  .badge{
+    opacity: .94;
   }
 </style>

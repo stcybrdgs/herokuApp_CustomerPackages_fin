@@ -1,14 +1,14 @@
 <template id="">
   <div class="col-12 col-md-10 col-lg-8">
-    <div class="ml-1 d-flex justify-content-between">
+    <div class="ml-1 mt-1 d-flex justify-content-between">
       <div class="">
 
         <!-- Radio buttons: the items per page -->
-        <span class="text-info" style="position:absolute; top:-1px;">
+        <span class="text-info items-per-page">
           Items per page:
         </span>
 
-        <div class="text-info" style="margin-left: 120px;">
+        <div class="text-info radio-buttons" style="margin-left: 120px;">
           <div class="form-check form-check-inline">
             <input
               id="radio-10" value="10"
@@ -45,32 +45,43 @@
       <!-- Buttons: the pagination pages -->
       <div class="mr-0 text-info">
         <div class="btn-group">
-          <span class="mr-3">Pages:</span>
+          <span class="mr-3">
+            Pages:
+          </span>
 
-          <button
-            class="btn btn-sm btn-outline-info rounded-0"
-            :class="{ active: i === activePgBtn }"
-            type="button"
-            name="button"
-            v-for="i in getNumberOfPages"
-            :key="i"
-            :value="i"
-            :id="i"
-            @click="selectedPage=i, activePgBtn=i">
-            {{i}}
-          </button>
-          <!-- selectedPage=i, active -->
+            <!-- notify user if there are no search results -->
+            <span class="page-button-span">
+              <button
+                v-if="numPgs == 0"
+                class="btn btn-sm btn-outline-warning text-warning rounded"
+                disabled>
+                No results !
+              </button>
+
+              <!-- Pagination buttons -->
+              <button
+                class="btn btn-sm btn-outline-info rounded-0"
+                :class="{ active: i === activePgBtn }"
+                type="button"
+                name="button"
+                v-for="i in getNumberOfPages"
+                :key="i"
+                :value="i"
+                :id="i"
+                @click="selectedPage=i, activePgBtn=i">
+                {{i}}
+              </button>
+            </span>
 
         </div>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
   export default{
-    props: ['packages'],
+    props: ['packages', 'numPgs'],
     data: function(){
       return{
         title: 'paginate-options',
@@ -90,23 +101,26 @@
       },
       selectedPage: function(){
         this.$emit('changeSelectedPage', this.selectedPage);
-        console.log(document.getElementById(this.selectedPage).innerHTML);
+      },
+      numPgs: function(){
+        if( this.selectedPage > this.numPgs ){
+          this.selectedPage = 1;
+          this.activePgBtn = 1;
+        }
       }
     },
     computed: {
       getNumberOfPages: function(){
-        console.log(23%20);
         var pl = this.packages.length;
         var r = this.getRadioValue();
 
         // calculate how many pages are needed to render the number of packages
         // based on the user-selected items per page
-        var numPgs =  pl == r ?
-                      1 :
-                      pl % r == 0 ?
-                      pl / r :
-                      pl % r < 5 ?
-                      Math.round(pl / r) + 1 :
+        var numPgs =  pl == 0 ? 0:
+                      pl == r ? 1 :
+                      pl % r == 0 ? pl / r :
+                      pl % r < r/2 ? Math.round(pl / r) + 1 :
+                      Math.round(pl / r ) == 0 && pl > 0 ? 1:
                       Math.round(pl / r );
         this.$emit('changeNumPgs', numPgs)
         return numPgs;
@@ -128,6 +142,18 @@
 
 </script>
 
-
 <style>
+.items-per-page{
+  position:absolute;
+  top: 4px;
+}
+.radio-buttons{
+  margin-top: 2px;
+}
+.page-button-span{
+  margin-top:-3px;
+}
+.page-button-span button{
+  margin-left:-1px;
+}
 </style>

@@ -1,39 +1,55 @@
 <template>
-
   <div id="main-app" class="container">
-    <div class="row mt-4 justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8">
-        <h2 class="text-left text-muted">{{ title }}</h2>
+    <main>
+
+      <div class="row mt-4 justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+          <div class="d-flex justify-content-between">
+            <h2 class="text-left text-muted">{{ title }}</h2>
+
+            <menu-links
+              :customerPackagesAPI="links.customerPackagesAPI"
+              @showRows="toggleShowRows"/>
+
+          </div>
+        </div>
+
+        <search-packages
+          :currFilterKey="filterKey"
+          :currFilterDir="filterDir"
+          @searchRecords="searchPackages"
+          @requestKey="changeKey"
+          @requestDir="changeDir" />
+
+        <paginate-options
+          :numPgs="numPgs"
+          :packages="filteredPkgs"
+          @changeNumPgs="changeNumPgs"
+          @changeItemsPerPage="changeItemsPerPage"
+          @changeSelectedPage="changeSelectedPage" />
+
+        <add-packages
+          :numPkgsFiltered='filteredPkgs.length'
+          :numPkgs='packages.length'
+          :itemsPerPage='itemsPerPage'
+          :dropMenus="dropMenus"
+          @add="addPackage"
+          @changeItemsPerPage="changeItemsPerPage"/>
+
+        <packages-list
+          :showRows='showRows'
+          :itemsPerPage='itemsPerPage'
+          :numPgs='numPgs'
+          :selectedPage='selectedPage'
+          :packages="filteredPkgs"
+          @removePackage="removePackage"
+          @edit="editItem" />
+
       </div>
+    </main>
 
-      <search-packages
-        :currFilterKey="filterKey"
-        :currFilterDir="filterDir"
-        @searchRecords="searchPackages"
-        @requestKey="changeKey"
-        @requestDir="changeDir" />
+    <footer-component />
 
-      <paginate-options
-        :packages="packages"
-        @changeNumPgs="changeNumPgs"
-        @changeItemsPerPage="changeItemsPerPage"
-        @changeSelectedPage="changeSelectedPage" />
-
-      <add-packages
-        :itemsPerPage='itemsPerPage'
-        :dropMenus="dropMenus"
-        @add="addPackage"
-        @changeItemsPerPage="changeItemsPerPage"/>
-
-      <packages-list
-        :itemsPerPage='itemsPerPage'
-        :numPgs='numPgs'
-        :selectedPage='selectedPage'
-        :packages="filteredPkgs"
-        @removePackage="removePackage"
-        @edit="editItem" />
-
-    </div>
   </div>
 </template>
 
@@ -44,7 +60,9 @@
   import PackagesList from "./components/PackagesList";
   import SearchPackages from "./components/SearchPackages";
   import AddPackages from "./components/AddPackages";
-  import PaginateOptions from"./components/PaginateOptions";
+  import PaginateOptions from "./components/PaginateOptions";
+  import FooterComponent from "./components/FooterComponent.vue";
+  import MenuLinks from "./components/MenuLinks.vue"
 
   export default {
     data: function() {
@@ -59,6 +77,7 @@
         itemsPerPage: '',
         selectedPage: '',
         numPgs: '',
+        showRows: false,
         dropMenus:{
           "customers": [],
           "widgets": [],
@@ -70,12 +89,13 @@
         testID: ''
       }
     },
-
     components: {
       AddPackages,
       SearchPackages,
       PackagesList,
-      PaginateOptions
+      PaginateOptions,
+      FooterComponent,
+      MenuLinks
     },
 
     computed: {
@@ -123,11 +143,7 @@
             this.showToast( 'info', 'Pkg #'.concat(pkgId).concat(' was added') );
           })
           .catch(function (error) {
-            // handle error
             console.log(error);
-          })
-          .then(function () {
-            // always executed
           });
       },
 
@@ -170,17 +186,19 @@
       },
 
       changeItemsPerPage: function(value){
-        console.log('changeItemsPerPage: ', value);
         this.itemsPerPage = value;
       },
 
       changeNumPgs: function(value){
-        console.log('changeNumPgs: ', value);
         this.numPgs = value;
       },
 
       changeSelectedPage: function(value){
         this.selectedPage = value;
+      },
+
+      toggleShowRows: function(value){
+        this.showRows = value;
       },
 
       showToast: function( type, msg ) {
@@ -193,13 +211,13 @@
         })
       },
     },
+
     mounted() {
       // on mount, query the db for data to populate packages and drop menus
       var url = this.links.customerPackagesAPI
       axios.get( url )
         .then( (res) => {
           // print the full data set returned by the GET method
-          console.log('GET test msg: ', res.data)
           this.apiJson = JSON.stringify(res.data);
 
           // parse response data into the Vue data layer
@@ -243,8 +261,16 @@
 </script>
 
 <style>
+  html{
+    position: relative;
+  }
   body{
     overflow-y: scroll;
   }
-
+  main{
+    /* a wrapper to enable sticky footer*/
+    //border: 1px solid red;
+    min-height:78vh;
+    margin-bottom: 60px;
+  }
 </style>

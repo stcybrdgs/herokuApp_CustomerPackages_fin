@@ -2,12 +2,17 @@
   <div class="col-12 col-md-10 col-lg-8">
     <div class="list-group list-group-flush">
       <div class="">
-        <!-- list-group -->
-        numberOfItems: {{ packages.length }} |
-        itemsPerPage: {{ itemsPerPage }} |
-        numPgs: {{ numPgs }} |
-        selectedPage: {{ selectedPage }}
 
+        <!-- show test values -->
+          <!--
+          numberOfItems: {{ packages.length }} |
+          itemsPerPage: {{ itemsPerPage }} |
+          numPgs: {{ numPgs }} |
+          selectedPage: {{ selectedPage }}
+          -->
+
+
+        <!-- list-group -->
         <div
           class="list-group-item p-0"
           v-for="(item, index) in packages.slice( pkgListSliceStart, pkgListSliceEnd )"
@@ -18,7 +23,15 @@
             class="container p-1">
             <!-- COL - trashcan icon -->
             <div class="col">
-              <span style="position:absolute;left:-20px;top:2px;">{{ index }}</span>
+
+              <!-- show/hide test indices -->
+              <span
+                class="text-muted pkg-row-nums"
+                v-if="showRows">
+                {{ index + 1 }}
+              </span>
+
+              <!-- trashcan icon -->
               <a
                 href="#"
                 class="mr-4 text-danger remove-pkg-icon"
@@ -59,19 +72,17 @@
 
   export default{
     name: 'packages-list',
-    props: ['packages', 'itemsPerPage', 'numPgs', 'selectedPage'],
+    props: ['packages', 'itemsPerPage', 'numPgs', 'selectedPage', 'showRows'],
     components: {
       FontAwesomeIcon
     },
     computed: {
       pkgListSliceStart: function(){
         var start = (this.itemsPerPage * this.selectedPage) - this.itemsPerPage;
-        console.log('slice start: ', start);
         return start;
       },
       pkgListSliceEnd: function(){
         var end = this.itemsPerPage * this.selectedPage;
-        console.log('slice end: ', end);
         return end;
       }
     }
@@ -103,12 +114,20 @@
   }
   .remove-pkg-icon{
     position: absolute;
-    top: 0px;
+    top: 0;
+    left: 19px;
     font-size: 1.2em;
     opacity: 0.4;
     transition: opacity 0.4s;
   }
   .remove-pkg-icon:hover{
     opacity: 0.9;
+  }
+  .pkg-row-nums{
+    position: absolute;
+    left: 2px;
+    top: 7px;
+    font-size: .7em;
+    opacity: 0.7;
   }
 </style>

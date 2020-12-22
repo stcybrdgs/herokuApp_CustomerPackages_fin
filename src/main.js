@@ -15,12 +15,11 @@ import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
 Vue.use(VueToast);
 
-// import/use vue tooltips
-
 // import Font Awesome icons
-import {library} from "@fortawesome/fontawesome-svg-core";  // import fontawesome
-import{ faTrashAlt, faPlus, faDollarSign, faCheck, faHashtag, faInfoCircle, faAsterisk, faTimes, faTimesCircle, faSearch } from "@fortawesome/free-solid-svg-icons";  // import icons you want
-library.add( faTrashAlt, faPlus, faDollarSign, faCheck, faHashtag, faInfoCircle, faAsterisk, faTimes, faTimesCircle, faSearch);  // add icons to library
+import { library } from "@fortawesome/fontawesome-svg-core";  // import fontawesome
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import{ faEye, faEyeSlash, faLink, faTrashAlt, faPlus, faDollarSign, faCheck, faHashtag, faInfoCircle, faAsterisk, faTimes} from "@fortawesome/free-solid-svg-icons";  // import icons you want
+library.add( faEye, faEyeSlash, faGithub, faLinkedin, faLink, faTrashAlt, faPlus, faDollarSign, faCheck, faHashtag, faInfoCircle, faAsterisk, faTimes);  // add icons to library
 
 // create and mount instance of Vue with App component
 Vue.config.productionTip = false;
