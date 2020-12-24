@@ -5,10 +5,10 @@
 
         <!-- Radio buttons: the items per page -->
         <span class="text-info items-per-page">
-          Items per page:
+          Show:
         </span>
 
-        <div class="text-info radio-buttons" style="margin-left: 120px;">
+        <div class="text-info radio-buttons" style="margin-left: 54px;">
           <div class="form-check form-check-inline">
             <input
               id="radio-10" value="10"

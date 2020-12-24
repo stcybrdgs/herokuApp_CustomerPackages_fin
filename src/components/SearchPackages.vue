@@ -17,7 +17,7 @@
         <!-- Clear button -->
         <button
           type="button"
-          class="btn btn-outline-info"
+          class="btn btn-outline-info search-opt-btn"
           aria-haspopup="true"
           aria-expanded="false"
           @click="clearFilter">
@@ -27,12 +27,11 @@
         <!-- Sort by button -->
         <button
           type="button"
-          class="btn btn-outline-info ropdown-toggle"
+          class="btn btn-outline-info dropdown-toggle search-opt-btn"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false">
           Sort by
-          <span class="caret"></span>
         </button>
 
         <!-- Filter drop menu -->
@@ -131,7 +130,7 @@
       searchTerm: function(){
         this.$emit('searchRecords', this.searchTerm);
         if( this.searchTerm ){
-          this.searchBarHighlight = 'rgb(240,250,250)';
+          this.searchBarHighlight = 'rgb(240,255,255)';  //'rgb(240,250,250)';
         } else {
           this.searchBarHighlight = 'rgb(255,255,255)';
         }
@@ -148,8 +147,5 @@
 <style>
   .dropdown-menu a{
     font-size: .92em;
-  }
-  input{
-    background: rgb(232,240,254);
   }
 </style>

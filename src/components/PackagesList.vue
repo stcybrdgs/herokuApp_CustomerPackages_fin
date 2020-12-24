@@ -48,13 +48,13 @@
                 <div class="d-flex">
                   <span class="text-info ml-2 mr-1 mt-1">#</span>
                   <span class="pkg-id-field align-self-start badge bg-light text-info text-right">{{ item.pkgId }} </span>
-                  <span class="h6 mt-1 text-info">{{ item.pkg }}</span>
+                  <span class="mt-1 text-muted">{{ item.pkg }}</span>
                 </div>
 
                 <!-- price -->
                 <div class="price-div">
                   <span class="text-info mt-1">$</span>
-                  <span class="price-field h6 badge bg-light text-info text-right">{{ item.price }}</span>
+                  <span class="price-field h6 badge bg-light text-muted text-right">{{ item.price }}</span>
                 </div>
               </div>
             </div>
@@ -114,7 +114,7 @@
   }
   .remove-pkg-icon{
     position: absolute;
-    top: 0;
+    top: 1px;
     left: 19px;
     font-size: 1.2em;
     opacity: 0.4;
@@ -126,7 +126,7 @@
   .pkg-row-nums{
     position: absolute;
     left: 2px;
-    top: 7px;
+    top: 8px;
     font-size: .7em;
     opacity: 0.7;
   }
